@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: apig-lambda-spring-cloud-function
+
+aws:
+  paramstore:
+    prefix: /config
+    profileSeparator: _
+    default-context: apig-lambda-spring-cloud-function
+cloud:
+  aws:
+    region:
+      static: eu-central-1
+      auto: false
+    stack:
+      auto: false
+     
+---
+spring:
+  config:
+    activate:
+      on-profile: local, default
+      
+server:
+  port: 8080
+  
+aws:
+  paramstore:
+    enabled: false
+cloud:
+  aws:
+    credentials:
+      profile-name: ${APIG_LAMBDA_SPRING_CLOUD_FUNCTION_PROFILE_NAME:default}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: aws
+    #import: "aws-parameterstore:"
